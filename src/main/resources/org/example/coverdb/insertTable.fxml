@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.coverdb.InsertTableController">
+   <children>
+      <Label layoutX="45.0" layoutY="55.0" prefHeight="30.0" prefWidth="104.0" text="Таблица" textFill="#450548">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameTable" layoutX="176.0" layoutY="56.0" prefHeight="30.0" prefWidth="143.0" text="Введите название" />
+      <Button fx:id="b" contentDisplay="CENTER" layoutX="386.0" layoutY="56.0" mnemonicParsing="false" onAction="#workWithScrollBox" prefHeight="31.0" prefWidth="99.0" text="Вывести" textFill="#56086b">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <ScrollPane layoutX="13.0" layoutY="98.0" prefHeight="74.0" prefWidth="574.0">
+         <content>
+            <GridPane fx:id="gridPane" gridLinesVisible="true" minWidth="573.0" prefHeight="30.0" prefWidth="573.0" visible="false">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <GridPane fx:id="gridPane2" gridLinesVisible="true" layoutX="14.0" layoutY="240.0" prefHeight="51.0" prefWidth="482.0" visible="false">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="241.0" minWidth="10.0" prefWidth="241.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="241.0" minWidth="10.0" prefWidth="241.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <Button fx:id="b2" layoutX="250.0" layoutY="300.0" mnemonicParsing="false" onAction="#insertTable" text="Вставить" textFill="#420863">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

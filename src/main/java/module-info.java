@@ -9,6 +9,7 @@ module org.example.coverdb {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires jdk.jconsole;
 
     opens org.example.coverdb to javafx.fxml;
     exports org.example.coverdb;

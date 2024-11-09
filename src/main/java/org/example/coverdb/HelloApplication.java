@@ -6,9 +6,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.geometry.Pos;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,14 +31,15 @@ public class HelloApplication extends Application {
         //db.readTable("client");
     }
     @Override
-    public void start(Stage myStage) {
+    public void start(Stage myStage) throws IOException {
+        //----------------------------------МЕНЮ----------------------------------------
         //Give the stage a title.
-        myStage.setTitle("Demonstrate Menus");
+        myStage.setTitle("Мои Корзинки");
 
         //Use a BorderPane for the root node.
         BorderPane rootNode = new BorderPane();
         //Create a scene.
-        Scene myScene = new Scene(rootNode, 300, 300);
+        Scene myScene = new Scene(rootNode, 500, 500);
         //Set the scene on the stage.
         myStage.setScene(myScene);
         //Create a label that will report the selection.
@@ -44,44 +50,43 @@ public class HelloApplication extends Application {
 
         // Create the File menu.
 
-        Menu fileMenu = new Menu("File");
-        MenuItem open = new MenuItem("Open");
-        MenuItem close = new MenuItem("Close");
-        MenuItem save = new MenuItem("Save");
-        MenuItem exit = new MenuItem("Exit");
+        Menu fileMenu = new Menu("Файл");
+        MenuItem open = new MenuItem("Открыть");
+        MenuItem close = new MenuItem("Закрыть");
+        MenuItem save = new MenuItem("Сохранить");
+        MenuItem exit = new MenuItem("Выход");
         fileMenu.getItems().addAll(open, close, save, new SeparatorMenuItem(), exit);
 
         //Add File menu to the menu bar.
 
         mb.getMenus().add(fileMenu);
         //Create the Options menu.
-        Menu optionsMenu = new Menu("Options");
-        // Create the Colors submenu.
-        Menu colorsMenu = new Menu("Colors");
-        MenuItem red = new MenuItem("Red");
-        MenuItem green = new MenuItem("Green");
-        MenuItem blue = new MenuItem("Blue");
-        colorsMenu.getItems().addAll(red, green, blue);
-        optionsMenu.getItems().add(colorsMenu);
+        Menu tablesMenu = new Menu("Таблицы");
+        // Create the submenu.
+        Menu regimMenu = new Menu("Режим");
+        MenuItem insert = new MenuItem("Заполнение");
+        MenuItem create = new MenuItem("Создание");
+        regimMenu.getItems().addAll(insert, create);
+        tablesMenu.getItems().add(regimMenu);
         // Create the Priority submenu.
-        Menu priorityMenu = new Menu("Priority");
-        MenuItem high = new MenuItem("High");
-        MenuItem low = new MenuItem("Low");
-        priorityMenu.getItems().addAll(high, low);
-        optionsMenu.getItems().add(priorityMenu);
+        Menu ListMenu = new Menu("Работа с записями");
+        MenuItem update = new MenuItem("Изменение");
+        MenuItem delete = new MenuItem("Удаление");
+        ListMenu.getItems().addAll(update, delete);
+        tablesMenu.getItems().add(ListMenu);
         // Add a separator.
 
-        optionsMenu.getItems().add(new SeparatorMenuItem());
+        tablesMenu.getItems().add(new SeparatorMenuItem());
 
         //Create the Reset menu item.
 
-        MenuItem reset = new MenuItem("Reset");
+        MenuItem reset = new MenuItem("На главную");
 
-        optionsMenu.getItems().add(reset);
+        tablesMenu.getItems().add(reset);
 
         //Add Options menu to the menu bar.
 
-        mb.getMenus().add(optionsMenu);
+        mb.getMenus().add(tablesMenu);
 
         //Create the Help menu.
 
@@ -96,28 +101,90 @@ public class HelloApplication extends Application {
         EventHandler<ActionEvent> MEHandler =
                 new EventHandler<ActionEvent>() { public void handle(ActionEvent ae) {
                     String name = ((MenuItem)ae.getTarget()).getText();
-                    // If Exit is chosen, the program is terminated.
-
-                    if(name.equals("Exit")) Platform.exit();
-                    response.setText( name + " selected");
+                    if(name.equals("Выход")) Platform.exit();
+                    //response.setText( name + " selected");
                 }
         };
+        EventHandler<ActionEvent> MEHandler2 =
+                new EventHandler<ActionEvent>() { public void handle(ActionEvent ae) {
+                    String name = ((MenuItem)ae.getTarget()).getText();
+                    if(name.equals( "Создание")){
+                            CreateTableController c = new CreateTableController();
+                            rootNode.setCenter(c.connection());
+                            }
+
+                }
+                };
+        EventHandler<ActionEvent> MEHandler3 =
+                new EventHandler<ActionEvent>() { public void handle(ActionEvent ae) {
+                    String name = ((MenuItem)ae.getTarget()).getText();
+                    if(name.equals( "Заполнение")){
+                        InsertTableController c = new InsertTableController();
+                        rootNode.setCenter(c.connection());
+                    }
+
+                }
+                };
+        EventHandler<ActionEvent> MEHandler4 =
+                new EventHandler<ActionEvent>() { public void handle(ActionEvent ae) {
+                    String name = ((MenuItem)ae.getTarget()).getText();
+                    if(name.equals( "Удаление")){
+                        DeleteRowsController c = new DeleteRowsController();
+                        rootNode.setCenter(c.connection());
+                    }
+
+                }
+                };
+
+
+
         // Set action event handlers for the menu items.
-        open.setOnAction(MEHandler); close.setOnAction(MEHandler);
-        save.setOnAction(MEHandler); exit.setOnAction(MEHandler);
-        red.setOnAction(MEHandler); green.setOnAction(MEHandler);
-        blue.setOnAction(MEHandler); high.setOnAction(MEHandler);
-        low.setOnAction(MEHandler); reset.setOnAction(MEHandler);
-        about.setOnAction(MEHandler);
+        open.setOnAction(MEHandler2); close.setOnAction(MEHandler2);
+        save.setOnAction(MEHandler2); exit.setOnAction(MEHandler);
+        insert.setOnAction(MEHandler3); create.setOnAction(MEHandler2);
+        update.setOnAction(MEHandler2);delete.setOnAction(MEHandler4);
+        reset.setOnAction(MEHandler2);about.setOnAction(MEHandler2);
+        rootNode.setTop(mb);
+        //----------------------------------МЕНЮ--------------------------------------------------------
+
         // Add keyboard accelerators for the File menu.
 
         open.setAccelerator(KeyCombination.keyCombination("shortcut+O"));
         close.setAccelerator(KeyCombination.keyCombination("shortcut+C"));
         save.setAccelerator(KeyCombination.keyCombination("shortcut+S"));
         exit.setAccelerator(KeyCombination.keyCombination("shortcut+E"));
+
+        //-------------ВСТАВИТЬ, КОПИРОВАТЬ, ВЫРЕЗАТЬ--------------------------------
+
+
+        //Create the context menu items
+        MenuItem cut = new MenuItem("Cut");
+        MenuItem copy = new MenuItem("Copy");
+        MenuItem paste = new MenuItem("Paste");
+        final ContextMenu editMenu = new ContextMenu(cut, copy, paste);
+        cut.setOnAction(MEHandler);
+        copy.setOnAction(MEHandler);
+        paste.setOnAction(MEHandler);
+        // Create a text field and set its column width to 20.
+        TextField tf = new TextField();
+        tf.setPrefColumnCount(20);
+        // Add the context menu to the textfield.
+        tf.setContextMenu(editMenu);
+        rootNode.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>()
+                                           {public void handle(ContextMenuEvent ae) {
+                        // Popup menu at the location of the right click.
+                        editMenu.show(rootNode, ae.getScreenX(), ae.getScreenY());}});
         //Add the menu bar to the top of the border pane and
         //the response label to the center position.
-        rootNode.setTop(mb); rootNode.setCenter(response);
+
+        FlowPane fpRoot = new FlowPane(10, 10);
+        ///Center the controls in the scene.
+        fpRoot.setAlignment(Pos.CENTER);
+        //Add both the label and the text field to the flow pane.
+        fpRoot.getChildren().addAll(response, tf);
+        //Add the flow pane to the center of the border layout.
+        rootNode.setCenter(fpRoot);
+        //-----------------------------------------------------------
         //Show the stage and its scene.
         myStage.show();
 
