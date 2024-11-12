@@ -1,6 +1,5 @@
 package org.example.coverdb;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +9,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -21,10 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static sun.tools.jconsole.LabeledComponent.layout;
-
-
-public class InsertTableController {
+public class UpdateRowController {
     @FXML
     private TextField nameTable;
     @FXML
@@ -38,21 +33,20 @@ public class InsertTableController {
     @FXML
     private GridPane gridPane;
     @FXML
-    private GridPane gridPane2;
+    private HBox hbox;
 
     private int columns;
     private String str;
-    private List<String> dbCols;
-    private List<String> data;
+    private List<String> dbCols ;
+    private List<String> data = new ArrayList<String>();
     private Database database = new Database();
 
-//    public void parseTField(){
-//        label3.setText("");
-//        if (textField.getText().matches("\\d+")) { columns = Integer.parseInt(textField.getText()); }
-//        else label3.setText("Это не число!!!");
-//    }
+    public int parseTField(String textField){
+        if (textField.matches("\\d+")) { return Integer.parseInt(textField); }
+        else return -1;
+    }
     public AnchorPane connection(){
-        FXMLLoader centerTableLoader = new FXMLLoader(getClass().getResource("insertTable.fxml"));
+        FXMLLoader centerTableLoader = new FXMLLoader(getClass().getResource("UpdateRow.fxml"));
         AnchorPane centerTablePane = null;
         try {
             centerTablePane = (AnchorPane) centerTableLoader.load();
@@ -61,22 +55,24 @@ public class InsertTableController {
         }
         return centerTablePane;
     }
-
-    public void insertTable() {
-            data = new ArrayList<String>();
-            str = ""; // Обнуляем str перед сбором новых данных
-            ObservableList<Node> children = gridPane2.getChildren();
-            for (int i = 1; i < children.size(); i +=2) {
-                Node node = children.get(i);
-                TextField t  = (TextField)node ;
-                str = t.getText();
-                data.add(t.getText());
+    public void updateRows() {
+        data = new ArrayList<String>();
+        str = ""; // Обнуляем str перед сбором новых данных
+        ObservableList<Node> children = gridPane.getChildren();
+        for (int i = 3; i < children.size(); i++) {
+            Node node = children.get(i);
+            if (GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) != 0) {
+                TextField t = (TextField) node;
+                dbCols.add(t.getText());
+                // break;
             }
-            System.out.println(data);
+        }
+        //database.UpdateRow(nameTable,textField2.getText(), dbCols, typeData);
 
-       database.insertRow(nameTable.getText(), dbCols, data);
+        // database.insertRow(nameTable.getText(), dbCols, data);
 
     }
+
     public void workWithScrollBox() throws SQLException {
         // string array
 
@@ -85,9 +81,9 @@ public class InsertTableController {
         gridPane.getChildren().clear();
 
 
-        gridPane2.getColumnConstraints().clear();
-        gridPane2.getRowConstraints().clear();
-        gridPane2.getChildren().clear();
+//        gridPane2.getColumnConstraints().clear();
+//        gridPane2.getRowConstraints().clear();
+//        gridPane2.getChildren().clear();
 
 
         ResultSet rs = database.readTable(nameTable.getText());
@@ -99,21 +95,22 @@ public class InsertTableController {
             while (rs.next()) {
                 for (int i = 0; i < md.getColumnCount(); i++) {
                     if (j == 1) {
-                        gridPane2.add(new Label(md.getColumnName(i + 1)), i, 0);
+//                        gridPane2.add(new Label(md.getColumnName(i + 1)), i, 0);
                         dbCols.add(md.getColumnName(i + 1));
-                        gridPane2.add(new TextField(), i, 1);
+//                        gridPane2.add(new TextField(), i, 1);
+                        gridPane.add(new Label(md.getColumnName(i + 1)), i, 0); // Заголовок столбца
                     }//Заголовок столбца для вставки
-                    gridPane.add(new Label(md.getColumnName(i + 1)), i, 0); // Заголовок столбца
-                    gridPane.add(new Label(rs.getString(i + 1)), i, j); // Получение данных по столбцам
+
+                    gridPane.add(new TextField(rs.getString(i + 1)), i, j); // Получение данных по столбцам
                 }
                 j++;
             }
 
         }
         gridPane.setGridLinesVisible(true);
-        gridPane2.setGridLinesVisible(true);
+        //gridPane2.setGridLinesVisible(true);
         gridPane.setVisible(true);
-        gridPane2.setVisible(true);
+        //gridPane2.setVisible(true);
         gridPane.layout();
         gridPane.requestLayout();
 

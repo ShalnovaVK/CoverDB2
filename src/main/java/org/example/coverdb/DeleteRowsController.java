@@ -111,12 +111,18 @@ public class DeleteRowsController {
         hbox.getChildren().add(c);
         c.setOnAction(actionEvent -> {
             if(c.getValue()== "по столбцу"){
+                hbox.getChildren().clear();
+                hbox.getChildren().add(label3);
+                hbox.getChildren().add(c);
                 ObservableList<Node> children = hbox.getChildren();
                 hbox.getChildren().add(new ChoiceBox<>(FXCollections.observableArrayList(dbCols)));
                 hbox.getChildren().add(new Label(" = "));
                 hbox.getChildren().add(new TextField());
             }
             else{
+                hbox.getChildren().clear();
+                hbox.getChildren().add(label3);
+                hbox.getChildren().add(c);
                 hbox.getChildren().add(new TextField());
             }
         });

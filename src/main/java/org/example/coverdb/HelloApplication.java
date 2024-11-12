@@ -51,11 +51,9 @@ public class HelloApplication extends Application {
         // Create the File menu.
 
         Menu fileMenu = new Menu("Файл");
-        MenuItem open = new MenuItem("Открыть");
-        MenuItem close = new MenuItem("Закрыть");
-        MenuItem save = new MenuItem("Сохранить");
+
         MenuItem exit = new MenuItem("Выход");
-        fileMenu.getItems().addAll(open, close, save, new SeparatorMenuItem(), exit);
+        fileMenu.getItems().addAll(exit);
 
         //Add File menu to the menu bar.
 
@@ -72,7 +70,9 @@ public class HelloApplication extends Application {
         Menu ListMenu = new Menu("Работа с записями");
         MenuItem update = new MenuItem("Изменение");
         MenuItem delete = new MenuItem("Удаление");
-        ListMenu.getItems().addAll(update, delete);
+        MenuItem find = new MenuItem("Поиск");
+
+        ListMenu.getItems().addAll(update, delete, find);
         tablesMenu.getItems().add(ListMenu);
         // Add a separator.
 
@@ -135,23 +135,53 @@ public class HelloApplication extends Application {
 
                 }
                 };
+        EventHandler<ActionEvent> MEHandler5 =
+                new EventHandler<ActionEvent>() { public void handle(ActionEvent ae) {
+                    String name = ((MenuItem)ae.getTarget()).getText();
+                    if(name.equals( "Поиск")){
+                        FinderRowsController c = new FinderRowsController();
+                        rootNode.setCenter(c.connection());
+                    }
+
+                }
+                };
+        EventHandler<ActionEvent> MEHandler6 =
+                new EventHandler<ActionEvent>() { public void handle(ActionEvent ae) {
+                    String name = ((MenuItem)ae.getTarget()).getText();
+                    if(name.equals( "Изменение")){
+                        UpdateRowController c = new UpdateRowController();
+                        rootNode.setCenter(c.connection());
+                    }
+
+                }
+                };
+        EventHandler<ActionEvent> MEHandler7 =
+                new EventHandler<ActionEvent>() { public void handle(ActionEvent ae) {
+                    String name = ((MenuItem)ae.getTarget()).getText();
+                    if(name.equals( "About")){
+                        AboutController c = new AboutController();
+                        rootNode.setCenter(c.connection());
+                    }
+
+                }
+                };
 
 
 
         // Set action event handlers for the menu items.
-        open.setOnAction(MEHandler2); close.setOnAction(MEHandler2);
-        save.setOnAction(MEHandler2); exit.setOnAction(MEHandler);
+        exit.setOnAction(MEHandler);
         insert.setOnAction(MEHandler3); create.setOnAction(MEHandler2);
-        update.setOnAction(MEHandler2);delete.setOnAction(MEHandler4);
-        reset.setOnAction(MEHandler2);about.setOnAction(MEHandler2);
+        update.setOnAction(MEHandler6);delete.setOnAction(MEHandler4);
+        reset.setOnAction(MEHandler2);find.setOnAction(MEHandler5);
+        about.setOnAction(MEHandler7);
         rootNode.setTop(mb);
         //----------------------------------МЕНЮ--------------------------------------------------------
 
         // Add keyboard accelerators for the File menu.
 
-        open.setAccelerator(KeyCombination.keyCombination("shortcut+O"));
-        close.setAccelerator(KeyCombination.keyCombination("shortcut+C"));
-        save.setAccelerator(KeyCombination.keyCombination("shortcut+S"));
+        //open.setAccelerator(KeyCombination.keyCombination("shortcut+O"));
+        //close.setAccelerator(KeyCombination.keyCombination("shortcut+C"));
+        //save.setAccelerator(KeyCombination.keyCombination("shortcut+S"));
         exit.setAccelerator(KeyCombination.keyCombination("shortcut+E"));
 
         //-------------ВСТАВИТЬ, КОПИРОВАТЬ, ВЫРЕЗАТЬ--------------------------------

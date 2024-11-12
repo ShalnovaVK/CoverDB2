@@ -19,7 +19,7 @@
         </Button>
         <ScrollPane layoutX="13.0" layoutY="98.0" prefHeight="74.0" prefWidth="574.0">
             <content>
-                <GridPane fx:id="gridPane" gridLinesVisible="true" minWidth="573.0" prefHeight="30.0" prefWidth="573.0">
+                <GridPane fx:id="gridPane" minWidth="573.0" prefHeight="30.0" prefWidth="573.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -31,7 +31,7 @@
                 </GridPane>
             </content>
         </ScrollPane>
-        <Button fx:id="b2" layoutX="250.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteRows" text="Вставить" textFill="#420863">
+        <Button fx:id="b2" layoutX="250.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteRows" text="Удалить" textFill="#420863">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>

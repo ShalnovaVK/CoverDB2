@@ -139,9 +139,9 @@ private  Connection con;
             System.out.println("Row deleted successfully !");
 
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
-            System.out.println("Exception caught in deleteTable");
+            System.out.println(e.getMessage());
         }
     }
     public void deleteRowByNumber(String tName,String firstEl, String value){
@@ -153,8 +153,8 @@ private  Connection con;
             stmt=con.createStatement();
             stmt.executeUpdate(query);
             System.out.println("Row deleted successfully !");
-        } catch (Exception e) {
-            System.out.println("Exception caught in deleteTable");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
